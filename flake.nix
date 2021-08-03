@@ -7,6 +7,11 @@
 
   outputs = { self, nixpkgs, utils }:
     utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; };
-      in { docs = import nixpkgs.lib.callPackage ./nix/docs.nix { }; });
+      let
+        docsplit-overlay = import ./nix/docsplit-overlay.nix { };
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ docsplit-overlay ];
+        };
+      in { packages = { inherit (pkgs) docsplit; }; });
 }

@@ -1,7 +1,7 @@
-{ stdenv, lib }:
-with lib;
+{ pkgs }:
+with pkgs;
 stdenv.mkDerivation {
-  pname = "poliscoops-doc";
+  name = "poliscoops-doc";
 
   src = ../docs;
 
@@ -10,7 +10,7 @@ stdenv.mkDerivation {
   preBuild = "cd docs";
 
   nativeBuildInputs = [
-    (python3.withPackages
+    (pkgs.python3.withPackages
       (pkgs: with pkgs; [ sphinx sphinx_rtd_theme sphinxcontrib_httpdomain ]))
   ];
 
