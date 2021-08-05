@@ -1,1 +1,5 @@
-final: prev: { docsplit = prev.callPackage ./docsplit/default.nix { }; }
+final: prev: {
+  docsplit = prev.pkgs.callPackage ./docsplit/default.nix {
+    inherit (prev.pkgs) bundlerApp;
+  };
+}

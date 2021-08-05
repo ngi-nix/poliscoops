@@ -16,8 +16,9 @@ ENV LC_ALL en_US.UTF-8
 RUN echo "Europe/Amsterdam" > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata
 
-RUN apt-get update \
+RUN apt-get clean && apt-get update \
     && apt-get install -y \
+        python \
         python-dev \
         python-setuptools \
         python-software-properties \
@@ -51,8 +52,6 @@ RUN apt-get update \
         liblcms2-dev \
         python-virtualenv \
         supervisor
-
-RUN pip install --upgrade pip
 
 ##### Install dependencies for pyav #####
 RUN apt-get update \
@@ -100,6 +99,8 @@ RUN echo "source /opt/bin/activate; cd /opt/pfl;" >> /etc/profile
 # Temporarily add all pfl API files on the host to the container
 # as it contains files needed to finish the base installation
 ADD . /opt/pfl
+
+RUN easy_install pip==1.2.1
 
 # Install Python requirements
 COPY ocd_backend/requirements.txt /opt/pfl/requirements.txt
